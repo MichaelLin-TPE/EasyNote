@@ -9,6 +9,7 @@ import androidx.databinding.Observable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.noted.checktimeapp.MainActivity
+import com.noted.checktimeapp.MainAdapter
 import com.noted.checktimeapp.R
 import com.noted.checktimeapp.UserManager
 import com.noted.checktimeapp.add_activity.EventObject
@@ -24,6 +25,8 @@ class ToDoViewHolder(
     private var dialog: AlertDialog? = null
 
     private lateinit var adapter: ToDoAdapter
+
+    private lateinit var removeListener: MainAdapter.OnSetRemoveButtonClickListener
 
     fun setData(
         userDataArray: ArrayList<EventObject>,
@@ -68,6 +71,7 @@ class ToDoViewHolder(
             Log.i("Michael","更新資料")
             adapter.setData(it.userDataArray,it.currentYear,it.currentMonth)
             adapter.notifyDataSetChanged()
+            removeListener.onRemoveButtonClick()
         }
 
         viewModel.saveUserData.observeForever {
@@ -76,6 +80,10 @@ class ToDoViewHolder(
             context.startActivity(refreshIntent)
         }
 
+    }
+
+    fun setRemoveButtonClickListener(removeListener: MainAdapter.OnSetRemoveButtonClickListener) {
+        this.removeListener = removeListener
     }
 
 

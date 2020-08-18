@@ -105,6 +105,11 @@ class MainActivity : AppCompatActivity() {
                     viewModel.onSetDateItemClickListener(totalDate)
                 }
             })
+            adapter.setOnRemoveButtonClickListener(object : MainAdapter.OnSetRemoveButtonClickListener{
+                override fun onRemoveButtonClick() {
+                    adapter.notifyDataSetChanged()
+                }
+            })
         }
 
         viewModel.refreshEvent.observeForever {

@@ -42,20 +42,24 @@ class ToDoViewModel {
         this.currentMonth = currentMonth
         this.currentYear = currentYear
 
-
         if (userDataArray.isNullOrEmpty()){
             isShowSearchNoData.set(true)
             return
         }
 
+
+        //test
+        val gson = Gson()
+        Log.i("Michael","傳進來的JSON : ${gson.toJson(userDataArray)}")
+
         var isShowNoData = true
         var itemCount = 0
         var timeItemCount = 0
         for (data in userDataArray){
-            itemCount += data.eventArray.size
-            timeItemCount += data.totalTime.size
             Log.i("Michael","目前日期 : $currentYear/$currentMonth")
             if (data.totalDate.contains("$currentYear/$currentMonth")){
+                itemCount += data.eventArray.size
+                timeItemCount += data.totalTime.size
                 isShowNoData = false
                 if (data.totalTime.isNullOrEmpty() && timeItemCount == 0){
                     Log.i("Michael","沒有 timeArray")

@@ -20,6 +20,12 @@ class MainAdapter(private val mainViewPresenter: MainViewPresenter) : RecyclerVi
 
     private lateinit var listener:OnSetDateItemClickListener
 
+    private lateinit var removeListener : OnSetRemoveButtonClickListener
+
+    fun setOnRemoveButtonClickListener(removeListener : OnSetRemoveButtonClickListener){
+        this.removeListener = removeListener;
+    }
+
     fun setOnSetDateItemClickListener(listener:OnSetDateItemClickListener){
         this.listener = listener
     }
@@ -69,9 +75,13 @@ class MainAdapter(private val mainViewPresenter: MainViewPresenter) : RecyclerVi
         }
         if (holder is ToDoViewHolder){
             mainViewPresenter.onBindToDoViewHolder(holder as ToDoViewHolder, position)
+            mainViewPresenter.setOnRemoveButtonClickListener(removeListener,holder)
         }
     }
     interface OnSetDateItemClickListener{
         fun onItemClick(totalDate:String)
+    }
+    interface  OnSetRemoveButtonClickListener{
+        fun onRemoveButtonClick()
     }
 }

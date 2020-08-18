@@ -118,4 +118,11 @@ class MainViewPresenterImpl : MainViewPresenter {
         toDoViewHolder.setData(userDataArray,currentMonth,currentYear)
     }
 
+    override fun setOnRemoveButtonClickListener(
+        removeListener: MainAdapter.OnSetRemoveButtonClickListener,
+        holder: ToDoViewHolder
+    ) {
+        holder.setRemoveButtonClickListener(removeListener)
+    }
+
 }

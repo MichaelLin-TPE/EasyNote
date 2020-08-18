@@ -16,4 +16,5 @@ interface MainViewPresenter {
     fun setUserData(eventJson: String?)
     fun setToDoView(eventJson: String?)
     fun onBindToDoViewHolder(toDoViewHolder: ToDoViewHolder, position: Int)
+    fun setOnRemoveButtonClickListener(removeListener: MainAdapter.OnSetRemoveButtonClickListener, holder: ToDoViewHolder)
 }
