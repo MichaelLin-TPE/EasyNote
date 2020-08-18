@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">EasyNote簡單記事本</string>
+    <string name="forward_month">上個月</string>
+    <string name="next_month">下個月</string>
+    <string name="today_event">今日代辦事項</string>
+    <string name="add_choice_time">"時間 : "</string>
+    <string name="press_me">點我</string>
+    <string name="add_event">新增事項</string>
+    <string name="search_no_data">今日無任何代辦事項</string>
+    <string name="do_something">"事項 : "</string>
+    <string name="enter_event">  你要做甚麼?</string>
+    <string name="add">新增</string>
+    <string name="confirm">確定</string>
+    <string name="to_do_title">本月份代辦事項</string>
+    <string name="to_do_no_data">本月沒有任何代辦事項</string>
+    <string name="channel">notedAppChannel</string>
+    <string name="channel_description">channel_description</string>
+    <string name="remove_other_event">移除過期事件</string>
+    <string name="warming">警告</string>
+    <string name="sure_to_delete_day_line">確定要刪除已經過期的事件?</string>
+    <string name="cancel">取消</string>
+    <string name="every_month">設定每月提醒 : </string>
+    <string name="every_month_yes">要</string>
+    <string name="every_month_no">不要</string>
+    <string name="modify">修改</string>
+</resources>

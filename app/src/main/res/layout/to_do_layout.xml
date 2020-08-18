@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.noted.checktimeapp.to_do_view.ToDoViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/to_do_title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/to_do_title_size"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:textColor="@color/black"
+            android:text="@string/to_do_title"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/to_do_remove_btn"
+            android:padding="5dp"
+            android:onClick="@{()-> vm.setOnRemoveButtonClickListener()}"
+            android:visibility="@{vm.isShowRemoveButton ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/to_do_line"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/remove_other_event"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/btn_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/to_do_remove_btn_height"/>
+
+        <View
+            android:id="@+id/to_do_line"
+            app:layout_constraintTop_toBottomOf="@+id/to_do_title"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/to_do_recycler_view"
+            app:layout_constraintTop_toBottomOf="@id/to_do_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/to_do_no_data"
+            android:textSize="@dimen/to_do_no_data"
+            android:textColor="@color/white"
+            android:text="@string/to_do_no_data"
+            android:visibility="@{vm.isShowSearchNoData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/to_do_line"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+        <variable
+            name="vm"
+            type="com.noted.checktimeapp.add_activity.AddItemViewModel" />
+        <variable
+            name="listener"
+            type="com.noted.checktimeapp.add_activity.AddAdapter.OnAddItemClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:onClick="@{()->vm.setOnAddItemClickListener(listener)}"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+        <TextView
+            android:id="@+id/add_item_content"
+            android:textSize="@dimen/add_item_content_size"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="XXXXX"
+            android:text="@{vm.itemContentLiveData}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+

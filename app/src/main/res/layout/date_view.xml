@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.noted.checktimeapp.date_view.DateDataObject" />
+        <variable
+            name="listener"
+            type="com.noted.checktimeapp.MainAdapter.OnSetDateItemClickListener" />
+        <import type="android.view.View"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/date_layout"
+        android:onClick="@{()->vm.setOnSetDateItemClickListener(listener)}"
+        android:background="@{vm.itemColor}"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/week_text_size"
+            android:gravity="center"
+            tools:text = "一"
+            android:text="@{vm.dateLiveData}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:id="@+id/date_item_first_event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="3dp"
+            android:visibility="@{vm.isShowFirstEventPic ? View.VISIBLE : View.GONE}"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/sqare_shape"
+            android:layout_width="8dp"
+            android:layout_height="8dp"/>
+
+        <View
+            android:id="@+id/date_item_second_event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/date_item_first_event"
+            android:layout_marginStart="3dp"
+            android:layout_marginBottom="3dp"
+            android:visibility="@{vm.isShowSecondEventPic ? View.VISIBLE : View.GONE}"
+            android:background="@drawable/sqare_shape"
+            android:layout_width="8dp"
+            android:layout_height="8dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+
