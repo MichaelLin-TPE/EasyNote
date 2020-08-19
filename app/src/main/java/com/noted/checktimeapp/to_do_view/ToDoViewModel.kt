@@ -47,7 +47,6 @@ class ToDoViewModel {
             return
         }
 
-
         //test
         val gson = Gson()
         Log.i("Michael","傳進來的JSON : ${gson.toJson(userDataArray)}")

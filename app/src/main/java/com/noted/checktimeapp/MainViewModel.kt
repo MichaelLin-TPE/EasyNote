@@ -3,9 +3,6 @@ package com.noted.checktimeapp
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.noted.checktimeapp.add_activity.EventObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,7 +27,11 @@ class MainViewModel : ViewModel() {
 
     val isShowSelectMonthView = MutableLiveData<Boolean>(false)
 
-    private val TAG = MainViewModel::class.java.simpleName
+    companion object{
+        private val TAG = MainViewModel::class.java.simpleName
+    }
+
+
 
     private val monthArray = ArrayList<String>()
 
@@ -68,7 +69,7 @@ class MainViewModel : ViewModel() {
 
     private fun getWeekDay(totalDate: String): Int {
         val simpleDate = SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN)
-        val currentDate :Date = simpleDate.parse(totalDate)
+        val currentDate : Date = simpleDate.parse(totalDate) ?: return 0
         return SimpleDateFormat("u", Locale.TAIWAN).format(currentDate).toInt()
     }
 
@@ -156,7 +157,7 @@ class MainViewModel : ViewModel() {
         val currentMonth = SimpleDateFormat("MM", Locale.TAIWAN).format(Date(System.currentTimeMillis()))
         val monthFirstDate = "$currentYear/$currentMonth/01"
         val simpleDate = SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN)
-        val currentDate :Date = simpleDate.parse(monthFirstDate)
+        val currentDate : Date = simpleDate.parse(monthFirstDate) ?: return
         val firstWeekDay :Int = SimpleDateFormat("u", Locale.TAIWAN).format(currentDate).toInt()
         Log.i("Michael","星期$firstWeekDay")
 
