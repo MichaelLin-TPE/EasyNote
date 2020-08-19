@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.noted.checktimeapp.add_activity.AddEventActivity
 import com.noted.checktimeapp.databinding.ActivityMainBinding
 import com.noted.checktimeapp.databinding.SelectMonthViewLayoutBinding
+import com.noted.checktimeapp.view_model.MainNewViewModel
+import com.noted.checktimeapp.view_model.MainRepository
+import com.noted.checktimeapp.view_model.MainRepositoryImpl
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,17 +34,13 @@ class MainActivity : AppCompatActivity() {
         private const val DATE = 1
     }
 
+    //新的ViewModel
+    private lateinit var mainRepository: MainRepository
+    private val newViewModel : MainNewViewModel by viewModels{
+        MainNewViewModel.Factory(mainRepository)
+    }
 
-    /**
-     * Handle onNewIntent() to inform the fragment manager that the
-     * state is not saved.  If you are handling new intents and may be
-     * making changes to the fragment state, you want to be sure to call
-     * through to the super-class here first.  Otherwise, if your state
-     * is saved but the activity is not stopped, you could get an
-     * onNewIntent() call which happens before onResume() and trying to
-     * perform fragment operations at that point will throw IllegalStateException
-     * because the fragment manager thinks the state is still saved.
-     */
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.i("Michael","接收到更新畫面指令")
@@ -51,12 +50,99 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        dataBinding.vm = viewModel
+        mainRepository = MainRepositoryImpl()
+        dataBinding.vm = newViewModel
         dataBinding.lifecycleOwner = this
 
+
+        //新的
+        viewPresenter = MainViewPresenterImpl()
+
+        newViewModel.onActivityCreate()
+
+        newViewModel.recyclerViewWeekViewLiveData.observeForever {
+            viewPresenter.setWeekData(it)
+        }
+
+        //先到這邊
+        newViewModel.recyclerViewDataViewLiveData.observeForever {
+            viewPresenter.setYearAndMonth(it.currentYear,it.currentMonth)
+            viewPresenter.setDateData(it.dateArray)
+            if (!UserManager.getInstance(this).getEventJson().isNullOrEmpty()){
+                viewPresenter.setUserData(UserManager.getInstance(this).getEventJson())
+            }
+            adapter = MainAdapter(viewPresenter)
+            val gridLayoutManager = GridLayoutManager(this,7)
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return when(adapter.getItemViewType(position)){
+                        WEEK -> {
+
+                            1
+                        }
+                        DATE ->{
+
+                            1
+                        }
+                        else ->{
+
+                            7
+                        }
+                    }
+                }
+
+            }
+            dataBinding.mainRecyclerView.layoutManager = gridLayoutManager
+            dataBinding.mainRecyclerView.adapter = adapter
+            adapter.setOnSetDateItemClickListener(object :MainAdapter.OnSetDateItemClickListener{
+                override fun onItemClick(totalDate: String) {
+                    Log.i("Michael","totalDate : $totalDate")
+
+                    newViewModel.onSetDateItemClickListener(totalDate)
+                }
+            })
+            adapter.setOnRemoveButtonClickListener(object : MainAdapter.OnSetRemoveButtonClickListener{
+                override fun onRemoveButtonClick() {
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        }
+
+        newViewModel.intentToAddEventActivityData.observeForever {
+            val intent = Intent(this,AddEventActivity::class.java)
+            intent.putExtra("date",it)
+            startActivity(intent)
+        }
+
+        newViewModel.showToDoView.observeForever {
+            if (!it){
+                return@observeForever
+            }
+            viewPresenter.setToDoView(UserManager.getInstance(this).getEventJson())
+        }
+
+        newViewModel.monthTextLiveData.observeForever {
+            val content = SpannableString(it)
+            content.setSpan(UnderlineSpan(),0,content.length,0)
+            dataBinding.mainTextMonth.text = content
+            dataBinding.textMonth = it
+        }
+
+        newViewModel.refreshRecyclerViewLiveData.observeForever {
+            viewPresenter.setYearAndMonth(it.currentYear,it.currentMonth)
+            viewPresenter.setDateData(it.dateArray)
+            adapter.notifyDataSetChanged()
+        }
+
+
+
+
+
+
+        //--------舊的
         viewModel.onActivityCreate()
 
-        viewPresenter = MainViewPresenterImpl()
+
 
 
         //underLine

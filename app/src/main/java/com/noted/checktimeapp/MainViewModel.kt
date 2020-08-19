@@ -1,6 +1,7 @@
 package com.noted.checktimeapp
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
@@ -33,7 +34,7 @@ class MainViewModel : ViewModel() {
 
 
 
-    private val monthArray = ArrayList<String>()
+    private var monthArray = ArrayList<String>()
 
 
 
@@ -125,6 +126,10 @@ class MainViewModel : ViewModel() {
         val recyclerViewData = RecyclerViewData(currentYear.toString(),month,dateArray)
         refreshRecyclerViewLiveData.value = recyclerViewData
     }
+    @VisibleForTesting
+    fun setMonthArray(monthArrayList: ArrayList<String>){
+        this.monthArray = monthArrayList
+    }
 
     fun onActivityCreate() {
         monthArray.add("01")
@@ -153,13 +158,13 @@ class MainViewModel : ViewModel() {
         weekArray.add("日")
         recyclerViewWeekViewLiveData.value = weekArray
         val monthMaxDate = getCurrentMonthMaxDate()
-        Log.i("Michael","取得當月份天數 : $monthMaxDate")
+//        Log.i("Michael","取得當月份天數 : $monthMaxDate")
         val currentMonth = SimpleDateFormat("MM", Locale.TAIWAN).format(Date(System.currentTimeMillis()))
         val monthFirstDate = "$currentYear/$currentMonth/01"
         val simpleDate = SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN)
         val currentDate : Date = simpleDate.parse(monthFirstDate) ?: return
         val firstWeekDay :Int = SimpleDateFormat("u", Locale.TAIWAN).format(currentDate).toInt()
-        Log.i("Michael","星期$firstWeekDay")
+//        Log.i("Michael","星期$firstWeekDay")
 
 
         val dateArray = ArrayList<String>()
